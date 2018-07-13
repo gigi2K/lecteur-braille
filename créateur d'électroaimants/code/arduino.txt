@@ -1,0 +1,45 @@
+#define MTR 10
+#define LEDV 8
+#define LEDR 4
+#define CTC 12
+
+int sensorState = 1;
+uint16_t tours = 0;
+
+void setup() {
+
+pinMode(CTC,INPUT);
+pinMode(MTR,OUTPUT);
+pinMode(LEDV,OUTPUT);
+pinMode(LEDR,OUTPUT);
+
+digitalWrite(CTC,LOW);
+digitalWrite(MTR,LOW);
+digitalWrite(LEDV,LOW);
+digitalWrite(LEDR,LOW);
+
+Serial.begin(9600);
+}
+
+void loop() {
+
+if (sensorState != digitalRead(CTC)) {
+  sensorState = digitalRead(CTC);
+  if (sensorState) tours+=1;
+  digitalWrite(LEDR,HIGH);
+  delay(100);
+}
+
+
+delay(10);
+
+if (tours < 51) {
+  digitalWrite(MTR,HIGH);
+  Serial.println(tours);
+  digitalWrite(LEDR,LOW);
+  }
+  else {
+    digitalWrite(MTR,LOW);
+    digitalWrite(LEDV,HIGH);
+  }
+}
